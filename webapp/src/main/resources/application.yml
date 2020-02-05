@@ -1,0 +1,45 @@
+#
+# Spring Boot configuration
+#  - options: https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+#
+
+server:
+  address: 127.0.0.1
+  port: 8080
+
+spring:
+
+  jpa:
+    databasePlatform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+    #show-sql: true
+
+  h2:
+    console:
+      enabled: false
+
+  datasource:
+    url: jdbc:h2:mem:wodsapp-db
+    username: wodsapp_user
+    password: wodsapp_password
+    # Connection Pooling (see https://github.com/brettwooldridge/HikariCP#configuration-knobs-baby)
+    hikari:
+      connectionTimeout: 30000
+      idleTimeout: 30000
+      maxLifetime: 2000000
+      minimumIdle: 3
+      maximumPoolSize: 5
+      poolName: SpringBootHikariCP
+
+  resources:
+    chain:
+      cache: true
+      html-application-cache: true
+      strategy:
+        content:
+          enabled: true
+          paths: /css/**, /images/**, /js/**
+
+  liquibase:
+    change-log: classpath:/db/changelog/master.xml

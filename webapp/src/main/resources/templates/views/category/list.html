@@ -1,0 +1,78 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{layout :: layout-fragment(
+							~{::title},
+							~{::content},
+							null,
+							null,
+							'category'
+							)}">
+<head>
+	<title th:text="#{application.title-pattern(#{application.name}, #{category.label.plural})}"></title>
+</head>
+<body>
+
+	<div th:fragment="content">
+
+		<div class="container">
+
+			<h1 style="padding-top: 10px;" th:text="#{category.label.plural}">Categories</h1>
+
+			<div th:replace="~{fragments/messages :: messages-fragment(${messages})}"></div>
+
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th th:text="#{category.name.label}">Name</th>
+						<th th:text="#{category.type.label}">Type</th>
+						<th th:text="#{default.table.operations.label}">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${#lists.isEmpty(allCategories)}">
+						<td colspan="3" align="center" th:text="#{default.table.empty.text}">Data can not be found.</td>
+					</tr>
+					<tr th:each="category : ${allCategories}">
+						<td th:text="${category.name}">[name]</td>
+						<td>
+							<span class="badge badge-secondary" th:classappend="${'category-type-'+category.type.name().toLowerCase()}" th:text="${#messages.msg('category.type.'+category.type.name()+'.label')}">[type]</span>
+						</td>
+						<td>
+							<a th:href="@{/category/edit/{id}(id=${category.id})}" th:text="#{default.button.edit.label}">Edit</a> |
+							<a href="" th:text="#{default.button.delete.label}" data-toggle="modal" data-target="#deleteModal" th:attr="data-id=${category.id}">Delete</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<a th:href="@{/category/create}" class="btn btn-outline-primary" th:text="#{category.add.label}">Add category</a>
+
+			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="deleteModalLabel" th:text="#{category.deletePopup.title}">Delete category</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<span th:text="#{category.deletePopup.question}">Do you really want to delete this category?</span>
+						</div>
+						<div class="modal-footer">
+							<a href="" th:attr="data-href-template=@{/category/delete/{id}}" class="btn btn-danger" th:text="#{default.button.delete.label}">Delete</a>
+							<button type="button" class="btn btn-outline-secondary" data-dismiss="modal" th:text="#{default.button.cancel.label}">Cancel</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<th:block id="additionalJs">
+		<script th:src="@{/js/category-list.js}"></script>
+	</th:block>
+
+</body>
+</html>
