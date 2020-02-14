@@ -40,4 +40,4 @@ eval \"$JAVA\" $JAVA_OPTS \
 	-Djava.io.tmpdir=\""$APP_HOME"/temp/\" \
 	-Dlogging.config=\""$APP_HOME"/config/logback-spring.xml\" -Dlogging.path=\""$APP_HOME"/log\" \
 	-jar \""$APP_HOME"/lib/${app.name.id}.jar\" \
-	--spring.config.location=\""$APP_HOME"/config/\"
+	--spring.config.additional-location=\""$APP_HOME"/config/\"

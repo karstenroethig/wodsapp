@@ -43,3 +43,13 @@ spring:
 
   liquibase:
     change-log: classpath:/db/changelog/master.xml
+
+---
+
+spring:
+
+  profiles: dev
+
+  thymeleaf:
+    # Reload templates without restarting the container
+    cache: false

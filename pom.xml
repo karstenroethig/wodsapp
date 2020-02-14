@@ -38,7 +38,7 @@
 		<webjars-popper.version>1.16.0</webjars-popper.version>
 		<webjars-select2.version>4.0.3</webjars-select2.version>
 		<webjars-fontawesome.version>5.11.2</webjars-fontawesome.version>
-		<webjars-jqcloud.version>2.0.3</webjars-jqcloud.version>
+		<webjars-summernote.version>0.8.10</webjars-summernote.version>
 	</properties>
 
 	<dependencyManagement>
@@ -78,6 +78,12 @@
 				<groupId>org.webjars</groupId>
 				<artifactId>font-awesome</artifactId>
 				<version>${webjars-fontawesome.version}</version>
+			</dependency>
+			<dependency>
+				<!-- https://summernote.org/ -->
+				<groupId>org.webjars</groupId>
+				<artifactId>summernote</artifactId>
+				<version>${webjars-summernote.version}</version>
 			</dependency>
 
 			<!-- Commons -->

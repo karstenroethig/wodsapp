@@ -10,9 +10,14 @@ public enum ViewEnum
 
 	ADMIN_SERVER_INFO(ControllerEnum.ADMIN, "/server-info" ),
 
+	WOD_LIST(ControllerEnum.WOD, ActionEnum.LIST),
+	WOD_SHOW(ControllerEnum.WOD, ActionEnum.SHOW),
+	WOD_CREATE(ControllerEnum.WOD, ActionEnum.CREATE),
+	WOD_EDIT(ControllerEnum.WOD, ActionEnum.EDIT),
+
+	CATEGORY_LIST(ControllerEnum.CATEGORY, ActionEnum.LIST),
 	CATEGORY_CREATE(ControllerEnum.CATEGORY, ActionEnum.CREATE),
-	CATEGORY_EDIT(ControllerEnum.CATEGORY, ActionEnum.EDIT),
-	CATEGORY_LIST(ControllerEnum.CATEGORY, ActionEnum.LIST);
+	CATEGORY_EDIT(ControllerEnum.CATEGORY, ActionEnum.EDIT);
 
 	private static final String VIEW_SUBDIRECTORY = "views";
 
@@ -22,7 +27,8 @@ public enum ViewEnum
 	private enum ControllerEnum
 	{
 		ADMIN,
-		CATEGORY;
+		CATEGORY,
+		WOD;
 
 		private String path = null;
 

@@ -48,4 +48,5 @@ This guide describes how to prepare the Eclipse to further develop the applicati
 ** Navigate to the project `webapp`
 ** Via the context menu click on "Run As > Spring Boot App"
 ** This will launch the application and creates a run configuration that can be used on the next run
+*** Switch to the profile "dev" in the run configuration
 ** Browse to [http://localhost:8080/](http://localhost:8080/)

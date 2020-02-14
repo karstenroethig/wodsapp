@@ -9,7 +9,7 @@
 	<changeSet id="1.0" author="roethig">
 
 		<!-- ================ -->
-		<!-- Table "Category" -->
+		<!-- Table "category" -->
 		<!-- ================ -->
 		<createTable tableName="category">
 			<column name="id" type="${type.id}" autoIncrement="true">
@@ -24,6 +24,50 @@
 		</createTable>
 
 		<addUniqueConstraint tableName="category" columnNames="name,type" constraintName="unique___category___name__type"/>
+
+		<!-- =========== -->
+		<!-- Table "wod" -->
+		<!-- =========== -->
+		<createTable tableName="wod">
+			<column name="id" type="${type.id}" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="description" type="longtext">
+				<constraints nullable="false"/>
+			</column>
+			<column name="type_id" type="${type.idRef}">
+				<constraints nullable="true"/>
+			</column>
+			<column name="scheme_id" type="${type.idRef}">
+				<constraints nullable="true"/>
+			</column>
+			<column name="event_id" type="${type.idRef}">
+				<constraints nullable="true"/>
+			</column>
+			<column name="updated_date" type="datetime">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+
+		<addUniqueConstraint tableName="wod" columnNames="name" constraintName="unique___wod___name"/>
+
+		<addForeignKeyConstraint
+			baseTableName="wod" baseColumnNames="type_id"
+			referencedTableName="category" referencedColumnNames="id"
+			constraintName="fk_wod__type_id__category"/>
+
+		<addForeignKeyConstraint
+			baseTableName="wod" baseColumnNames="scheme_id"
+			referencedTableName="category" referencedColumnNames="id"
+			constraintName="fk_wod__scheme_id__category"/>
+
+		<addForeignKeyConstraint
+			baseTableName="wod" baseColumnNames="event_id"
+			referencedTableName="category" referencedColumnNames="id"
+			constraintName="fk_wod__event_id__category"/>
 
 	</changeSet>
 

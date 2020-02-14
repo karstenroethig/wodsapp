@@ -22,6 +22,7 @@ import lombok.ToString;
 
 @Entity
 @Table(
+	name = "category",
 	uniqueConstraints = {
 		@UniqueConstraint(columnNames = {"id"}),
 		@UniqueConstraint(columnNames = {"name", "type"})

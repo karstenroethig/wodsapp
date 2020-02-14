@@ -1,0 +1,99 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	th:replace="~{layout :: layout-fragment(
+							~{::title},
+							~{::content},
+							null,
+							~{:: #additionalJs},
+							'wod'
+							)}">
+<head>
+	<title th:text="#{application.title-pattern(#{application.name}, #{category.label.plural})}"></title>
+</head>
+<body>
+
+	<div th:fragment="content">
+
+		<div class="container-fluid">
+
+			<h1 style="padding-top: 10px;">
+				<span th:text="#{wod.label.plural}">WODs</span>
+				<span class="float-right">
+					<a th:href="@{/wod/create}" class="btn btn-outline-primary" th:text="#{wod.add.label}">Add WOD</a>
+				</span>
+			</h1>
+
+			<div th:replace="~{fragments/messages :: messages-fragment(${messages})}"></div>
+
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th th:text="#{wod.name.label}">Name</th>
+						<th th:text="#{wod.type.label}">Type</th>
+						<th th:text="#{wod.scheme.label}">Scheme</th>
+						<th th:text="#{wod.event.label}">Event</th>
+						<th th:text="#{default.table.operations.label}">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${#lists.isEmpty(allWods)}">
+						<td colspan="5" align="center" th:text="#{default.table.empty.text}">Data can not be found.</td>
+					</tr>
+					<tr th:each="wod : ${allWods}">
+						<td th:text="${wod.name}">[name]</td>
+						<td>
+							<span th:if="${wod.type != null}" th:text="${wod.type.name}">[type.name]</span>
+						</td>
+						<td>
+							<span th:if="${wod.scheme != null}" th:text="${wod.scheme.name}">[scheme.name]</span>
+						</td>
+						<td>
+							<span th:if="${wod.event != null}" th:text="${wod.event.name}">[event.name]</span>
+						</td>
+						<td>
+							<div class="btn-group">
+								<a th:href="@{/wod/show/{id}(id=${wod.id})}" class="btn btn-outline-secondary btn-sm" th:text="#{default.button.show.label}">Show</a>
+								<button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<div class="dropdown-menu dropdown-menu-right">
+									<a th:href="@{/wod/edit/{id}(id=${wod.id})}" class="dropdown-item" th:text="#{default.button.edit.label}">Edit</a>
+									<a href="" class="dropdown-item" data-toggle="modal" data-target="#deleteModal" th:attr="data-id=${wod.id}" th:text="#{default.button.delete.label}">Delete</a>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="deleteModalLabel" th:text="#{wod.deletePopup.title}">Delete WOD</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<span th:text="#{wod.deletePopup.question}">Do you really want to delete this WOD?</span>
+						</div>
+						<div class="modal-footer">
+							<a href="" th:attr="data-href-template=@{/wod/delete/{id}}" class="btn btn-danger" th:text="#{default.button.delete.label}">Delete</a>
+							<button type="button" class="btn btn-outline-secondary" data-dismiss="modal" th:text="#{default.button.cancel.label}">Cancel</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<th:block id="additionalJs">
+		<script th:src="@{/js/wod-list.js}"></script>
+	</th:block>
+
+</body>
+</html>

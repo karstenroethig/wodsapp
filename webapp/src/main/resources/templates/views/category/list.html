@@ -1,5 +1,6 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
 	th:replace="~{layout :: layout-fragment(
 							~{::title},
 							~{::content},
@@ -14,9 +15,14 @@
 
 	<div th:fragment="content">
 
-		<div class="container">
+		<div class="container-fluid">
 
-			<h1 style="padding-top: 10px;" th:text="#{category.label.plural}">Categories</h1>
+			<h1 style="padding-top: 10px;">
+				<span th:text="#{category.label.plural}">Categories</span>
+				<span class="float-right">
+					<a th:href="@{/category/create}" class="btn btn-outline-primary" th:text="#{category.add.label}">Add category</a>
+				</span>
+			</h1>
 
 			<div th:replace="~{fragments/messages :: messages-fragment(${messages})}"></div>
 
@@ -44,7 +50,6 @@
 					</tr>
 				</tbody>
 			</table>
-			<a th:href="@{/category/create}" class="btn btn-outline-primary" th:text="#{category.add.label}">Add category</a>
 
 			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
@@ -69,10 +74,6 @@
 		</div>
 
 	</div>
-
-	<th:block id="additionalJs">
-		<script th:src="@{/js/category-list.js}"></script>
-	</th:block>
 
 </body>
 </html>

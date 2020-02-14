@@ -67,7 +67,7 @@ public class CategoryController extends AbstractController
 		if (category == null)
 			throw new NotFoundException(String.valueOf(id));
 
-		if (categoryService.deleteTag(id))
+		if (categoryService.delete(id))
 			redirectAttributes.addFlashAttribute(Messages.ATTRIBUTE_NAME,
 					Messages.createWithSuccess(MessageKeyEnum.CATEGORY_DELETE_SUCCESS, category.getName()));
 		else
@@ -108,7 +108,7 @@ public class CategoryController extends AbstractController
 	}
 
 	@PostMapping(value = UrlMappings.ACTION_UPDATE)
-	public String update(@ModelAttribute( "category" ) @Valid CategoryDto category, BindingResult bindingResult,
+	public String update(@ModelAttribute("category") @Valid CategoryDto category, BindingResult bindingResult,
 		final RedirectAttributes redirectAttributes, Model model)
 	{
 		if (bindingResult.hasErrors())

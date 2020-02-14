@@ -16,15 +16,10 @@ import lombok.ToString;
 @Setter
 @ToString
 //@EqualsAndHashCode(exclude="name")
-public class CategoryDto
+public class CategoryDto extends AbstractDtoId
 {
-	private Long id;
-
 	@NotNull
-	@Size(
-		min = 1,
-		max = 255
-	)
+	@Size(min = 1, max = 255)
 	private String name;
 
 	@NotNull
@@ -42,21 +37,12 @@ public class CategoryDto
 	public boolean equals(Object obj)
 	{
 		if (obj == null)
-		{
 			return false;
-		}
 
 		if (getClass() != obj.getClass())
-		{
 			return false;
-		}
 
 		final CategoryDto other = (CategoryDto) obj;
-		if (!Objects.equals(this.id, other.id))
-		{
-			return false;
-		}
-
-		return true;
+		return Objects.equals(this.id, other.id);
 	}
 }

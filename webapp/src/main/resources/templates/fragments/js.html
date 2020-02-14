@@ -1,5 +1,6 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8" />
 </head>
@@ -18,6 +19,9 @@
 
 		<!-- Select2 -->
 		<script th:src="@{'/webjars/select2/'+#{application.dependency.select2}+'/dist/js/select2.min.js'}"></script>
+
+		<!-- Summernote -->
+		<script th:src="@{'/webjars/summernote/'+#{application.dependency.summernote}+'/summernote-bs4.min.js'}"></script>
 
 		<!-- App JavaScript -->
 		<script th:src="@{/js/app.js}"></script>

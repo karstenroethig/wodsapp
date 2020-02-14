@@ -10,6 +10,7 @@ public class UrlMappings
 	public static final String DASHBOARD = "/dashboard";
 
 	public static final String CONTROLLER_CATEGORY = "/category";
+	public static final String CONTROLLER_WOD = "/wod";
 	public static final String CONTROLLER_ADMIN = "/admin";
 
 	public static final String ACTION_LIST = "/list";

@@ -21,7 +21,7 @@ import karstenroethig.wodsapp.webapp.service.exceptions.AlreadyExistsException;
 @Transactional
 public class CategoryServiceImpl
 {
-	@Autowired protected CategoryRepository categoryRepository;
+	@Autowired private CategoryRepository categoryRepository;
 
 	public CategoryDto create()
 	{
@@ -57,7 +57,7 @@ public class CategoryServiceImpl
 			throw new AlreadyExistsException("name");
 	}
 
-	public boolean deleteTag(Long id)
+	public boolean delete(Long id)
 	{
 		Category category = categoryRepository.findById(id).orElse(null);
 
@@ -73,6 +73,11 @@ public class CategoryServiceImpl
 	public List<CategoryDto> getAllElements()
 	{
 		return transformCategories(categoryRepository.findAll(Sort.by("type", "name")));
+	}
+
+	public List<CategoryDto> findByType(CategoryTypeEnum type)
+	{
+		return transformCategories(categoryRepository.findAllByTypeOrderByName(type));
 	}
 
 	public CategoryDto find(Long id)
@@ -91,7 +96,7 @@ public class CategoryServiceImpl
 		return category;
 	}
 
-	private CategoryDto transform(Category category)
+	protected CategoryDto transform(Category category)
 	{
 		if (category == null)
 			return null;

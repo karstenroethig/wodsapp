@@ -1,5 +1,7 @@
 type;name
 MOVEMENT;Clean & Jerk
+MOVEMENT;Pull-up
+MOVEMENT;Snatch
 TYPE;For Time
 TYPE;EMOM
 TYPE;AMRAP
