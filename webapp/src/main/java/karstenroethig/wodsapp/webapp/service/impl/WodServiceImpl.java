@@ -9,6 +9,8 @@ import java.util.stream.StreamSupport;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +18,10 @@ import karstenroethig.wodsapp.webapp.domain.Category;
 import karstenroethig.wodsapp.webapp.domain.Wod;
 import karstenroethig.wodsapp.webapp.dto.CategoryDto;
 import karstenroethig.wodsapp.webapp.dto.WodDto;
+import karstenroethig.wodsapp.webapp.dto.WodSearchDto;
 import karstenroethig.wodsapp.webapp.repository.CategoryRepository;
 import karstenroethig.wodsapp.webapp.repository.WodRepository;
+import karstenroethig.wodsapp.webapp.repository.specification.WodSpecifications;
 import karstenroethig.wodsapp.webapp.service.exceptions.AlreadyExistsException;
 
 @Service
@@ -74,6 +78,14 @@ public class WodServiceImpl
 		}
 
 		return false;
+	}
+
+	public Page<WodDto> find(WodSearchDto wodSearchDto, Pageable pageable)
+	{
+		Page<Wod> page = wodRepository.findAll(WodSpecifications.matchesSearchParam(wodSearchDto), pageable);
+		Page<WodDto> pageDto = page.map(this::transform);
+
+		return pageDto;
 	}
 
 	public List<WodDto> getAllElements()

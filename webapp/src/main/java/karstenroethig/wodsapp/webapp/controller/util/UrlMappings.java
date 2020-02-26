@@ -20,6 +20,7 @@ public class UrlMappings
 	public static final String ACTION_DELETE = "/delete/{id}";
 	public static final String ACTION_SAVE = "/save";
 	public static final String ACTION_UPDATE = "/update";
+	public static final String ACTION_SEARCH = "/search";
 
 	private UrlMappings() {}
 

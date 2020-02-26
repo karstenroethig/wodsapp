@@ -1,12 +1,18 @@
 package karstenroethig.wodsapp.webapp.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,11 +25,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import karstenroethig.wodsapp.webapp.bean.WodSearchBean;
 import karstenroethig.wodsapp.webapp.controller.exceptions.NotFoundException;
+import karstenroethig.wodsapp.webapp.controller.util.AttributeNames;
 import karstenroethig.wodsapp.webapp.controller.util.UrlMappings;
 import karstenroethig.wodsapp.webapp.controller.util.ViewEnum;
 import karstenroethig.wodsapp.webapp.domain.enums.CategoryTypeEnum;
 import karstenroethig.wodsapp.webapp.dto.WodDto;
+import karstenroethig.wodsapp.webapp.dto.WodSearchDto;
 import karstenroethig.wodsapp.webapp.service.exceptions.AlreadyExistsException;
 import karstenroethig.wodsapp.webapp.service.impl.CategoryServiceImpl;
 import karstenroethig.wodsapp.webapp.service.impl.WodServiceImpl;
@@ -38,11 +47,38 @@ public class WodController extends AbstractController
 	@Autowired WodServiceImpl wodService;
 	@Autowired CategoryServiceImpl categoryService;
 
+	@Autowired private WodSearchBean wodSearchBean;
+
 	@GetMapping(value = UrlMappings.ACTION_LIST)
-	public String list(Model model)
+	public String list(Model model, @PageableDefault(size = 20, sort = "name") Pageable pageable)
 	{
-		model.addAttribute("allWods", wodService.getAllElements());
+		Page<WodDto> componentPage = wodService.find(wodSearchBean.getWodSearchDto(), pageable);
+
+		model.addAttribute(AttributeNames.PAGE, componentPage);
+		model.addAttribute(AttributeNames.CURRENT_ITEMS, createCurrentItemsText(componentPage));
+
+		Iterator<Sort.Order> sortOrders = componentPage.getSort().iterator();
+		while (sortOrders.hasNext())
+		{
+			Sort.Order order = sortOrders.next();
+			model.addAttribute(AttributeNames.SORT_PROPERTY, order.getProperty());
+			model.addAttribute(AttributeNames.SORT_DESC, order.getDirection() == Sort.Direction.DESC);
+			break;
+		}
+
+		model.addAttribute(AttributeNames.AVAILABLE_PAGESIZES, Arrays.asList(10, 15, 20, 25, 50, 100));
+
+		model.addAttribute("wodSearch", wodSearchBean.getWodSearchDto());
+		addBasicAttributes(model);
+
 		return ViewEnum.WOD_LIST.getViewName();
+	}
+
+	@PostMapping(value = UrlMappings.ACTION_SEARCH)
+	public String search(@ModelAttribute("wodSearch") WodSearchDto wodSearchDto, Model model)
+	{
+		wodSearchBean.setWodSearchDto(wodSearchDto);
+		return UrlMappings.redirect(UrlMappings.CONTROLLER_WOD, UrlMappings.ACTION_LIST);
 	}
 
 	@GetMapping(value = UrlMappings.ACTION_SHOW)

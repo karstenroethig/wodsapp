@@ -66,6 +66,12 @@
 			<artifactId>hibernate-java8</artifactId>
 		</dependency>
 
+		<!-- Hibernate's JPA Metamodel generator -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+		</dependency>
+
 		<!-- ThyMeLeaf ... -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
